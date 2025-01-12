@@ -5,12 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const outputDiv = document.getElementById("output");
     const inputLine = document.getElementById("input-line");
     const inputField = document.getElementById("command-input");
+    const promptSpan = document.getElementById("prompt");
 
     const bootMessages = [
         "Initializing system...",
         "Loading modules...",
         "Starting services...",
-        "Welcome to Portfolio Terminal OS v1.0 (Minimal Version)"
+        "Welcome to T-OS v1.0 (Minimal Version)"
     ];
 
     // prettier-ignore
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 `;
 
     let messageIndex = 0;
+    let currentUser = null;
 
     function showBootMessages() {
         if (messageIndex < bootMessages.length) {
@@ -52,38 +54,71 @@ document.addEventListener("DOMContentLoaded", () => {
             asciiArtDiv.innerHTML = `<pre>${asciiArt}</pre>`;
             bootLog.appendChild(asciiArtDiv);
             setTimeout(() => {
-                bootScreen.style.display = "none";
                 mainScreen.style.display = "flex";
-                displaySystemInfo();
-                inputField.focus();
+                checkUserStatus();
             }, 2000);
+        }
+    }
+
+    function checkUserStatus() {
+        const username = localStorage.getItem("username");
+        if (username) {
+            currentUser = username;
+            displaySystemInfo();
+        } else {
+            showUsernamePrompt();
+        }
+    }
+
+    function showUsernamePrompt() {
+        promptSpan.textContent = "username: ";
+        inputField.addEventListener("keydown", handleUsernameInput);
+        inputField.focus();
+    }
+
+    function handleUsernameInput(event) {
+        if (event.key === "Enter") {
+            const username = inputField.value.trim();
+            if (/^[a-z]+$/.test(username)) {
+                localStorage.setItem("username", username);
+                currentUser = username;
+                inputField.value = ""; // Clear the input field
+                inputField.removeEventListener("keydown", handleUsernameInput);
+                clearTerminal();
+                displaySystemInfo();
+            } else {
+                alert("Invalid username. Usernames must be lowercase alphabetical characters.");
+            }
         }
     }
 
     function displaySystemInfo() {
         const systemInfo = `
-Portfolio Terminal OS v1.0
+Welcome, ${currentUser}!
+T-OS v1.0
 All rights reserved.
         `;
         const infoDiv = document.createElement("div");
         infoDiv.textContent = systemInfo.trim();
         outputDiv.appendChild(infoDiv);
 
+        promptSpan.textContent = `${currentUser}@machine:~$ `;
+        inputField.addEventListener("keydown", handleCommandInput);
         addNewPrompt();
     }
 
-    inputField.addEventListener("keydown", (event) => {
+    function handleCommandInput(event) {
         if (event.key === "Enter") {
             const command = inputField.value.trim();
             executeCommand(command);
-            inputField.value = "";
+            inputField.value = ""; // Clear the input field
         }
-    });
+    }
 
     function executeCommand(command) {
         // Display the command in the terminal
         const commandOutput = document.createElement("div");
-        commandOutput.innerHTML = `<span class="prompt">user@portfolio:~$</span> ${command}`;
+        commandOutput.innerHTML = `<span class="prompt">${currentUser}@machine:~$</span> ${command}`;
         outputDiv.appendChild(commandOutput);
 
         // Process the command
@@ -93,8 +128,6 @@ All rights reserved.
             clearTerminal();
         } else if (command === "date") {
             displayDate();
-        } else if (command === "weather") {
-            displayWeather();
         } else if (command === "joke") {
             displayJoke();
         } else if (command === "calendar") {
@@ -103,6 +136,8 @@ All rights reserved.
             shutdownSystem();
         } else if (command === "neofetch") {
             displayNeofetchInfo();
+        } else if (command === "logout") {
+            logoutUser();
         } else {
             const errorMessage = document.createElement("div");
             errorMessage.textContent = `Command not found: ${command}`;
@@ -114,21 +149,6 @@ All rights reserved.
 
         // Auto-scroll terminal
         outputDiv.scrollTop = outputDiv.scrollHeight;
-    }
-
-    function shutdownSystem() {
-        const shutdownMessage = "Shutting down...";
-        const shutdownOutput = document.createElement("div");
-        shutdownOutput.textContent = shutdownMessage;
-        outputDiv.appendChild(shutdownOutput);
-
-        setTimeout(() => {
-            mainScreen.style.display = "none";
-            bootScreen.style.display = "flex";
-            bootLog.innerText = "";
-            messageIndex = 0;
-            showBootMessages();
-        }, 2000);
     }
 
     function displayMan(command) {
@@ -156,18 +176,6 @@ SYNOPSIS
 
 DESCRIPTION
     The date command displays the current date and time.
-                `;
-                break;
-            case "weather":
-                manMessage = `
-NAME
-    weather - display the current weather
-
-SYNOPSIS
-    weather
-
-DESCRIPTION
-    The weather command displays the current weather.
                 `;
                 break;
             case "joke":
@@ -218,28 +226,56 @@ DESCRIPTION
     The neofetch command displays system information.
                 `;
                 break;
+            case "logout":
+                manMessage = `
+NAME
+    logout - logout the current user
+
+SYNOPSIS
+    logout
+
+DESCRIPTION
+    The logout command logs out the current user.
+                `;
+                break;
             default:
                 manMessage = `
 Available commands:
   - man: Display this help message
   - clear: Clear the terminal screen
   - date: Display the current date and time
-  - weather: Display the current weather
   - joke: Display a random joke
   - calendar: Display the current month's calendar
   - shutdown: Shutdown and restart the system
   - neofetch: Display system information
+  - logout: Logout the current user
                 `;
                 break;
         }
         const manOutput = document.createElement("div");
-        manOutput.textContent = manMessage;
+        manOutput.textContent = manMessage.trim();
         outputDiv.appendChild(manOutput);
+    }
+
+    function logoutUser() {
+        const logoutMessage = "Logging out...";
+        const logoutOutput = document.createElement("div");
+        logoutOutput.textContent = logoutMessage;
+        outputDiv.appendChild(logoutOutput);
+
+        setTimeout(() => {
+            clearTerminal();
+            localStorage.removeItem("username");
+            currentUser = null;
+            inputField.removeEventListener("keydown", handleCommandInput);
+            inputField.value = ""; // Clear the input field
+            showUsernamePrompt();
+            addNewPrompt(); // Ensure the prompt is added back after logout
+        }, 2000);
     }
 
     function clearTerminal() {
         outputDiv.innerHTML = "";
-        displaySystemInfo();
     }
 
     function addNewPrompt() {
@@ -256,14 +292,6 @@ Available commands:
         dateOutput.id = "date-info";
         dateOutput.textContent = dateMessage;
         outputDiv.appendChild(dateOutput);
-    }
-
-    function displayWeather() {
-        const weatherMessage = "Current weather: Sunny, 25°C"; // Placeholder for actual weather data
-        const weatherOutput = document.createElement("div");
-        weatherOutput.id = "weather-info";
-        weatherOutput.textContent = weatherMessage;
-        outputDiv.appendChild(weatherOutput);
     }
 
     function displayJoke() {
