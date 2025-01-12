@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: "Courier New", Courier, monospace;
+    background-color: #000000;
+    color: #00ff00;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#boot-screen {
+    padding: 20px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    background-color: #000000;
+    color: #00ff00;
+}
+
+#main-screen {
+    padding: 10px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #000000;
+    color: #00ff00;
+    font-family: "Courier New", Courier, monospace;
+}
+
+#terminal {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: #000000;
+    color: #00ff00;
+}
+
+#output {
+    flex-grow: 1;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+}
+
+#input-line {
+    display: flex;
+    align-items: center;
+}
+
+.prompt {
+    margin-right: 5px;
+    color: #00ff00;
+    font-weight: bold;
+}
+
+#command-input {
+    background: transparent;
+    border: none;
+    color: #00ff00;
+    outline: none;
+    font-size: inherit;
+    width: 100%;
+    caret-color: #00ff00;
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* Add styles for the new commands */
+#weather-info, #date-info, #joke {
+    margin-top: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #00ff00;
+}
+
+#ascii-art {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #00ff00;
+}
+
+#fetch-container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+#fetch-art {
+    margin-right: 20px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #00ff00;
+}
+
+#fetch-info {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #00ff00;
+}

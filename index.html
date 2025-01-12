@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Portfolio Terminal</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div id="boot-screen">
+            <pre id="boot-log"></pre>
+        </div>
+        <div id="main-screen" style="display: none">
+            <div id="terminal">
+                <div id="output"></div>
+                <div id="input-line">
+                    <span class="prompt">user@portfolio:~$</span>
+                    <input type="text" id="command-input" autofocus />
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
