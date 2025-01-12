@@ -5,12 +5,12 @@ body {
     color: #00ff00;
     height: 100vh;
     overflow: hidden;
-    font-size: 18px; /* Increase overall font size */
+    font-size: 18px; /* increase overall font size */
 }
 
 #boot-screen {
     padding: 20px;
-    font-size: 16px; /* Increase font size */
+    font-size: 16px; /* increase font size on boot screen */
     white-space: pre-wrap;
     background-color: #000000;
     color: #00ff00;
@@ -18,13 +18,13 @@ body {
 
 #main-screen {
     padding: 10px;
-    font-size: 18px; /* Increase font size */
+    font-size: 18px; /* increase font size on terminal screen */
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: #000000;
     color: #00ff00;
-    font-family: "Press Start 2P", "Courier New", Courier, monospace; /* 1980s desktop type font */
+    font-family: "Press Start 2P", "Courier New", Courier, monospace;
 }
 
 #terminal {
@@ -47,7 +47,7 @@ body {
 #input-line {
     display: flex;
     align-items: center;
-    margin-top: 20px; /* Adjust this value to move the prompt lower */
+    margin-top: 20px; /* move the prompt lower */
 }
 
 .prompt {
@@ -64,11 +64,10 @@ body {
     font-size: inherit;
     width: 100%;
     caret-color: #00ff00;
-    font-family: "Press Start 2P", "Courier New", Courier, monospace; /* 1980s desktop type font */
+    font-family: "Press Start 2P", "Courier New", Courier, monospace;
 }
 
 /* Add styles for the new commands */
-#weather-info,
 #date-info,
 #joke {
     margin-top: 10px;
@@ -101,42 +100,4 @@ body {
     white-space: pre-wrap;
     word-wrap: break-word;
     color: #00ff00;
-}
-
-#login-form,
-#register-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 20px;
-}
-
-#login-form input,
-#register-form input {
-    background: transparent;
-    border: 1px solid #00ff00;
-    color: #00ff00;
-    outline: none;
-    font-size: 16px;
-    margin: 5px 0;
-    padding: 5px;
-    font-family: "Press Start 2P", "Courier New", Courier, monospace; /* 1980s desktop type font */
-}
-
-#login-form button,
-#register-form button {
-    background: #00ff00;
-    border: none;
-    color: #000000;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-family: "Press Start 2P", "Courier New", Courier, monospace; /* 1980s desktop type font */
-}
-
-#login-form a,
-#register-form a {
-    color: #00ff00;
-    text-decoration: underline;
-    cursor: pointer;
-    margin-top: 10px;
 }

@@ -116,12 +116,10 @@ All rights reserved.
     }
 
     function executeCommand(command) {
-        // Display the command in the terminal
         const commandOutput = document.createElement("div");
         commandOutput.innerHTML = `<span class="prompt">${currentUser}@machine:~$</span> ${command}`;
         outputDiv.appendChild(commandOutput);
 
-        // Process the command
         if (command.startsWith("man")) {
             displayMan(command.split(" ")[1]);
         } else if (command === "clear") {
@@ -144,10 +142,9 @@ All rights reserved.
             outputDiv.appendChild(errorMessage);
         }
 
-        // Add a new prompt line
         addNewPrompt();
 
-        // Auto-scroll terminal
+        // auto-scroll terminal
         outputDiv.scrollTop = outputDiv.scrollHeight;
     }
 
@@ -268,9 +265,9 @@ Available commands:
             localStorage.removeItem("username");
             currentUser = null;
             inputField.removeEventListener("keydown", handleCommandInput);
-            inputField.value = ""; // Clear the input field
+            inputField.value = ""; // clear the input field
             showUsernamePrompt();
-            addNewPrompt(); // Ensure the prompt is added back after logout
+            addNewPrompt(); // ensure the prompt is added back after logout
         }, 2000);
     }
 
@@ -279,7 +276,6 @@ Available commands:
     }
 
     function addNewPrompt() {
-        // Move the input line to the end of the terminal
         inputLine.remove();
         outputDiv.appendChild(inputLine);
         inputField.focus();
